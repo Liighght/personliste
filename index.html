@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personliste</title>
+    <link rel="stylesheet" href="">
+</head>
+
+<body>
+
+    <style>
+        img {
+            max-width: 200px;
+        }
+    </style>
+
+    <section class="data-container"></section>
+
+    <template class="data-template">
+       <article>
+           <h2></h2>
+
+         <ul>
+            <li class="data-github"></li>
+            <li class="data-website"></li>
+            <li class="data-mail"></li>
+            <li class="data-addresse"></li>
+            <li class="data-alder"></li>
+            <li class="data-civilstatus"></li>
+            <li class="data-tlf"></li>
+            <li class="data-facebook"></li>
+            <li class="data-hobby"></li>
+            <li class="data-sex"></li>
+            <ul>
+            <img src="" alt="">
+            </ul>
+        </ul>
+       </article>
+
+
+   </template>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", hentJson);
+
+        let personer;
+
+        async function hentJson() {
+            let myJson = await fetch("personliste.json");
+            personer = await myJson.json();
+
+            console.log(personer);
+
+            visPersoner();
+
+        }
+
+        function visPersoner() {
+
+            let modtager = document.querySelector(".data-container");
+            let temp = document.querySelector(".data-template");
+
+            //løb personlisten igennem og lav en klon
+
+            personer.forEach(person => {
+
+                //lav en klon af template
+                let klon = temp.cloneNode(true).content;
+
+                //indsæt data i html
+                klon.querySelector("h2").textContent = "Navn: " + person.navn;
+                klon.querySelector(".data-github").textContent = "GitHub: " + person.github;
+                klon.querySelector(".data-website").textContent = "Website: " + person.website;
+                klon.querySelector(".data-mail").textContent = "Mail: " + person.mail;
+                klon.querySelector(".data-addresse").textContent = "Addresse: " + person.addresse;
+                klon.querySelector(".data-alder").textContent = "Alder: " + person.alder;
+                klon.querySelector(".data-civilstatus").textContent = "Civilstatus: " + person.civilstatus;
+                klon.querySelector(".data-tlf").textContent = "Telefon: " + person.tlf;
+                klon.querySelector(".data-facebook").textContent = "Facebook: " + person.facebook;
+                klon.querySelector(".data-hobby").textContent = "Hobby: " + person.hobby;
+                klon.querySelector(".data-sex").textContent = "Køn: " + person.sex;
+                klon.querySelector("img").src = person.billede;
+
+                //placer klon i html
+                modtager.appendChild(klon);
+
+            });
+        }
+    </script>
+
+</body>
+
+</html>
